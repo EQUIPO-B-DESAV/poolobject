@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -55,13 +57,26 @@ public class ReusablePoolTest {
 
 	/**
 	 * Test method for {@link ubu.gii.dass.c01.ReusablePool#acquireReusable()}.
+	 * @author Sandro Martín
+	 * @throws NotFreeInstanceException 
 	 */
 	@Test
         @DisplayName("testAcquireReusable")
         @Disabled("Not implemented yet")
 
-	public void testAcquireReusable() {
+	public void testAcquireReusable() throws NotFreeInstanceException {
+
+		ReusablePool pool = ReusablePool.getInstance();
 		
+        Reusable reusable1 = pool.acquireReusable();
+        assertNotNull(reusable1, "Primer objeto nulo");
+        Reusable reusable2 = pool.acquireReusable();
+        assertNotNull(reusable2, "Segundo objeto nulo");
+        assertNotSame(reusable1, reusable2, "Objetos con misma instancia");
+        Exception exception = assertThrows(NotFreeInstanceException.class, () -> {
+            pool.acquireReusable();
+        });
+        assertEquals("No hay más instancias reutilizables disponibles. Reintentalo más tarde", exception.getMessage());
 	}
 
 	/**
