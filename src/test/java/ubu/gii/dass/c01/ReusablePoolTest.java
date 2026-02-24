@@ -62,7 +62,6 @@ public class ReusablePoolTest {
 	 */
 	@Test
         @DisplayName("testAcquireReusable")
-        @Disabled("Not implemented yet")
 
 	public void testAcquireReusable() throws NotFreeInstanceException {
 
@@ -84,9 +83,22 @@ public class ReusablePoolTest {
 	 */
 	@Test
         @DisplayName("testReleaseReusable")
-        @Disabled("Not implemented yet")
-	public void testReleaseReusable() {
+
+	public void testReleaseReusable() throws NotFreeInstanceException, DuplicatedInstanceException {
+		//Se obtiene la instancia del pool.
+		ReusablePool miPool4 = ReusablePool.getInstance();
 		
+		//Se intenta adquirir un objeto reusable del pool.
+		Reusable r1 = miPool4.acquireReusable();
+
+		
+		//Se intenta liberar un objeto reusable del pool.  
+		miPool4.releaseReusable(r1);
+		
+		//Se comprueba que tras intentar liberar el mismo objeto reusable lanza la excepción porque este ya ha sido liberada.
+		assertThrows(DuplicatedInstanceException.class, () -> miPool4.releaseReusable(r1), "Ya se ha devuelto ese objeto reusable anteriormente, por lo que se lanza la excepción.");
+
 	}
+
 
 }
