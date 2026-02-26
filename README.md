@@ -1,6 +1,6 @@
 poolobject
 ==========
-
+[![codecov](https://codecov.io/gh/EQUIPO-B-DESAV/poolobject/graph/badge.svg?token=7UALHvGzfV)](https://codecov.io/gh/EQUIPO-B-DESAV/poolobject)
 
 Java code example of creational design pattern pool object
 
